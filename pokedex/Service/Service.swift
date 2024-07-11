@@ -15,7 +15,7 @@ struct ListOfPokemon: Codable {
     let results: [Pokemon]
 }
 
-func fetchPokemonData(id: Int) {
+func fetchPokemonData(id: Int, completion: @escaping (Result<ListOfPokemon, Error>) -> Void) {
     // Definindo a URL da requisição
     guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=150&offset=0") else {
         print("URL inválida.")
@@ -35,19 +35,19 @@ func fetchPokemonData(id: Int) {
         
         // Verificando se há dados de resposta
         guard let data = data else {
-            print("Não foram recebidos dados na resposta.")
+            let noDataError = NSError(domain: "fetchPokemonData", code: 1, userInfo: [NSLocalizedDescriptionKey: "Não foi recebido dados a resposta."])
+            completion(.failure(noDataError))
             return
         }
         
         do {
             let pokemon = try JSONDecoder().decode(ListOfPokemon.self, from: data)
-            print("Nome do Pokemon: \(pokemon)")
+            completion(.success(pokemon))
         } catch let error {
-            print("Error ao decodificar JSON: \(error.localizedDescription)")
+            completion(.failure(error))
         }
     }
     
     // Iniciando a tarefa de data task
     task.resume()
 }
-

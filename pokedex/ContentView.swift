@@ -18,7 +18,14 @@ struct ContentView: View {
         }
         .padding()
         .onAppear {
-            fetchPokemonData(id: 3)
+            fetchPokemonData(id: 3) { result in
+                switch result {
+                case .success(let listOfPokemon):
+                    print("Lista de pokemons:", listOfPokemon)
+                case .failure(let error):
+                    print("Erro ao buscar dados dos pokemons:", error.localizedDescription)
+                }
+            }
         }
     }
 }
