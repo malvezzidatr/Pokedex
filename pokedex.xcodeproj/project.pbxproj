@@ -15,6 +15,7 @@
 		C84A0B472C40612F0023D0B3 /* pokedexUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84A0B462C40612F0023D0B3 /* pokedexUITests.swift */; };
 		C84A0B492C40612F0023D0B3 /* pokedexUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84A0B482C40612F0023D0B3 /* pokedexUITestsLaunchTests.swift */; };
 		C84A0B562C4061520023D0B3 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84A0B552C4061520023D0B3 /* Service.swift */; };
+		C881E8BB2C41B9660033F313 /* PokemonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C881E8BA2C41B9660033F313 /* PokemonDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		C84A0B462C40612F0023D0B3 /* pokedexUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokedexUITests.swift; sourceTree = "<group>"; };
 		C84A0B482C40612F0023D0B3 /* pokedexUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokedexUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C84A0B552C4061520023D0B3 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		C881E8BA2C41B9660033F313 /* PokemonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				C84A0B2D2C40612E0023D0B3 /* ContentView.swift */,
 				C84A0B2F2C40612F0023D0B3 /* Assets.xcassets */,
 				C84A0B312C40612F0023D0B3 /* Preview Content */,
+				C881E8BA2C41B9660033F313 /* PokemonDetailView.swift */,
 			);
 			path = pokedex;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C84A0B2E2C40612E0023D0B3 /* ContentView.swift in Sources */,
+				C881E8BB2C41B9660033F313 /* PokemonDetailView.swift in Sources */,
 				C84A0B562C4061520023D0B3 /* Service.swift in Sources */,
 				C84A0B2C2C40612E0023D0B3 /* pokedexApp.swift in Sources */,
 			);
