@@ -8,22 +8,57 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var pokemonsDatas: [PokemonData] = []
     
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            if pokemonsDatas.isEmpty {
+                ProgressView("Carregando pokemons...")
+            } else {
+                Text("Pokedex")
+                    .font(.largeTitle)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .top)
+                    .padding(.top, 60)
+                Spacer(minLength: 20)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 20) {
+                        ForEach(pokemonsDatas, id: \.name) { pokemon in
+                            VStack {
+                                AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"))
+                                    
+                                Text(pokemon.name.capitalized)
+                                    .font(.system(size: 32))
+                            }
+                            .padding()
+                            .background(Color.red)
+                            .cornerRadius(10)
+                            .frame(maxWidth: .infinity)
+                        }
+                    }
+                }.padding(.leading, 10)
+                Spacer()
+            }
         }
-        .padding()
+        
         .onAppear {
-            fetchPokemonData(id: 3) { result in
-                switch result {
-                case .success(let listOfPokemon):
-                    print("Lista de pokemons:", listOfPokemon)
-                case .failure(let error):
-                    print("Erro ao buscar dados dos pokemons:", error.localizedDescription)
+            let dispatchGroup = DispatchGroup()
+            
+            for index in 1...150 {
+                dispatchGroup.enter()
+                fetchPokemon(id: index) { result in
+                    defer {
+                        dispatchGroup.leave()
+                    }
+                    switch result {
+                    case .success(let pokemonData):
+                        DispatchQueue.main.async {
+                            self.pokemonsDatas.append(pokemonData)
+                        }
+                        
+                    case .failure(let error):
+                        print("Error:", error.localizedDescription)
+                    }
                 }
             }
         }
