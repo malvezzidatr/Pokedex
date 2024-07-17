@@ -1,40 +1,40 @@
-//
-//  ContentView.swift
-//  pokedex
-//
-//  Created by Caio Malvezzi on 11/07/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     @State private var pokemonsDatas: [PokemonData] = []
+    @State private var filteredPokemons: [PokemonData] = []
+    @State private var pokemonName: String = ""
     
     var body: some View {
-        NavigationView {
-            VStack {
-                if pokemonsDatas.isEmpty {
-                    ProgressView("Carregando pokemons...")
-                } else {
-                    Text("Pokedex")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .top)
-                        .padding(.top, 60)
-                    Spacer(minLength: 20)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20) {
-                            ForEach(pokemonsDatas, id: \.name) { pokemon in
-                                PokemonCard(pokemon: pokemon)
+        VStack {
+            Text("Pokedex")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .top)
+                .padding(.top, 60)
+            Spacer(minLength: 50)
+            SearchPokemonTextField(pokemonName: $pokemonName, pokemonsDatas: $pokemonsDatas, filteredPokemons: $filteredPokemons)
+            NavigationView {
+                VStack {
+                    if pokemonsDatas.isEmpty {
+                        ProgressView("Carregando pokemons...")
+                    } else {
+                        Spacer(minLength: 20)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 20) {
+                                ForEach(filteredPokemons.isEmpty ? pokemonsDatas : filteredPokemons, id: \.name) { pokemon in
+                                    PokemonCard(pokemon: pokemon)
+                                }
                             }
                         }
+                        .padding(.leading, 10)
+                        Spacer()
                     }
-                    .padding(.leading, 10)
-                    Spacer()
                 }
-            }
-            .onAppear {
-                self.getPokemonData()
+                .onAppear {
+                    self.getPokemonData()
+                }
             }
         }
     }
@@ -46,12 +46,37 @@ struct ContentView: View {
                 case .success(let pokemonData):
                     DispatchQueue.main.async {
                         self.pokemonsDatas.append(pokemonData)
+                        self.filteredPokemons = self.pokemonsDatas
                     }
                     
                 case .failure(let error):
                     print("Error:", error.localizedDescription)
                 }
             }
+        }
+    }
+}
+
+struct SearchPokemonTextField: View {
+    @Binding var pokemonName: String
+    @Binding var pokemonsDatas: [PokemonData]
+    @Binding var filteredPokemons: [PokemonData]
+    
+    var body: some View {
+        TextField("Enter pokemon name", text: $pokemonName)
+            .onChange(of: pokemonName, perform: { pokemonSearched in
+                handleTextChanged(pokemonSearched)
+            })
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .border(Color.gray, width: 1)
+            .padding()
+    }
+    
+    private func handleTextChanged(_ pokemonSearched: String) {
+        if pokemonSearched.isEmpty {
+            filteredPokemons = pokemonsDatas
+        } else {
+            filteredPokemons = pokemonsDatas.filter { $0.name.lowercased().contains(pokemonSearched.lowercased()) }
         }
     }
 }
@@ -80,7 +105,7 @@ struct PokemonCard: View {
                         .foregroundColor(Color.black)
                 }
                 .padding()
-                .background(Color.red)
+                .background(Color.gray)
                 .cornerRadius(10)
                 .frame(maxWidth: .infinity)
             }
