@@ -34,8 +34,11 @@ struct PokemonDetailView: View {
                     
                 }
             }
-                
-            Text("Detalhes do Pokémon")
+            
+            Spacer().frame(height: 60)
+            Text("Moves:")
+                .font(.title)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             
             Spacer()
         }
@@ -55,13 +58,32 @@ struct PokemonName: View {
 
 struct PokemonTypeCard: View {
     var type: String
+    var colorOfType: String = "blue"
+    
+    let pokemonTypeColors: [String: Color] = [
+        "fire": .red,
+        "water": .blue,
+        "grass": .green,
+        "electric": .yellow,
+        "psychic": .purple,
+        "ice": .cyan,
+        "dragon": .orange,
+        "dark": .black,
+        "fairy": .pink,
+        "normal": .gray,
+        "fighting": .brown,
+        "poison": .purple,
+        "flying": .teal,
+        "bug": .secondary,
+        "ghost": .indigo,
+    ]
     
     var body: some View {
         Text(type.capitalized)
             .padding(4)
             .padding(.trailing, 8)
             .padding(.leading, 8)
-            .background(.green)
+            .background(pokemonTypeColors[type.lowercased()] ?? .gray)
             .cornerRadius(10)
             .foregroundColor(.white)
             .font(.headline)
