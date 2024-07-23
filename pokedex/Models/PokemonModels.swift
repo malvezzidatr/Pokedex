@@ -7,17 +7,27 @@
 
 import Foundation
 
-struct Pokemon: Codable {
-    let name: String
-}
-
 struct ListOfPokemon: Codable {
-    let results: [Pokemon]
+    let results: [PokemonData]
 }
 
 struct PokemonData: Codable {
     let name: String
     let sprites: Sprite
+    let types: [PokemonTypes]
+}
+
+struct PokemonTypes: Codable {
+    let type: TypeObject
+}
+
+extension PokemonTypes {
+    var name: String {
+        return type.name
+    }
+}
+struct TypeObject: Codable {
+    let name: String
 }
 
 struct Sprite: Codable {

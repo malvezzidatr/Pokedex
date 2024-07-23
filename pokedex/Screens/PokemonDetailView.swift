@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PokemonDetailView: View {
     var pokemon: PokemonData
-
+    
     var body: some View {
         VStack {
             AsyncImage(url: URL(string: pokemon.sprites.front_default)) { phase in
@@ -23,18 +23,48 @@ struct PokemonDetailView: View {
                 }
             }
             .frame(width: 200, height: 200)
-
-            Text(pokemon.name.capitalized)
-                .font(.largeTitle)
-                .padding()
-                .fontWeight(.bold)
-
-            // Adicione mais detalhes sobre o Pokémon aqui
+                
+            PokemonName(name: pokemon.name)
+            
+            Spacer().frame(height: 6)
+            
+            HStack(spacing: 14) {
+                ForEach(pokemon.types, id: \.type.name) {
+                    type in PokemonTypeCard(type: type.name)
+                    
+                }
+            }
+                
             Text("Detalhes do Pokémon")
-
+            
             Spacer()
         }
         .navigationTitle(pokemon.name.capitalized)
+    }
+}
+
+struct PokemonName: View {
+    var name: String
+    
+    var body: some View {
+            Text(name.capitalized)
+                .font(.largeTitle)
+                .fontWeight(.bold)
+    }
+}
+
+struct PokemonTypeCard: View {
+    var type: String
+    
+    var body: some View {
+        Text(type.capitalized)
+            .padding(4)
+            .padding(.trailing, 8)
+            .padding(.leading, 8)
+            .background(.green)
+            .cornerRadius(10)
+            .foregroundColor(.white)
+            .font(.headline)
     }
 }
 
@@ -42,7 +72,11 @@ struct PokemonDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let examplePokemon = PokemonData(
             name: "Bulbasaur",
-            sprites: Sprite(front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
+            sprites: Sprite(front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"),
+            types: [
+                PokemonTypes(type: TypeObject(name: "Grass")),
+                PokemonTypes(type: TypeObject(name: "Poison"))
+            ]
         )
 
         PokemonDetailView(pokemon: examplePokemon)

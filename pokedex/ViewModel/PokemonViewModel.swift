@@ -42,6 +42,7 @@ class PokemonViewModel: ObservableObject {
                 }
             }
         }
+        
     }
     
     func handleTextChanged(_ pokemonSearched: String) {
