@@ -52,7 +52,8 @@
 		C84A0B482C40612F0023D0B3 /* pokedexUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokedexUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C84A0B552C4061520023D0B3 /* PokemonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonService.swift; sourceTree = "<group>"; };
 		C85180A22C52BA5400B3DF3A /* pokedexUITests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pokedexUITests; sourceTree = "<group>"; };
-		C85180A32C52BA7900B3DF3A /* pokedex */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pokedex; sourceTree = "<group>"; };
+		C85180A32C52BA7900B3DF3A /* pokedex */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pokedex; sourceTree = "<group>"; };
+		C85180DA2C52C01600B3DF3A /* pokedex.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = pokedex.xctestplan; sourceTree = SOURCE_ROOT; };
 		C881E8BA2C41B9660033F313 /* PokemonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +164,7 @@
 			children = (
 				C84A0B462C40612F0023D0B3 /* pokedexUITests.swift */,
 				C84A0B482C40612F0023D0B3 /* pokedexUITestsLaunchTests.swift */,
+				C85180DA2C52C01600B3DF3A /* pokedex.xctestplan */,
 			);
 			path = pokedexUITests;
 			sourceTree = "<group>";

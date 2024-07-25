@@ -20,6 +20,7 @@ struct ContentView: View {
                         LazyHStack(spacing: 20) {
                             ForEach(viewModel.filteredPokemons.isEmpty ? viewModel.pokemonsDatas : viewModel.filteredPokemons, id: \.name) { pokemon in
                                 PokemonCard(pokemon: pokemon)
+                                    .accessibilityIdentifier("pokemon-\(pokemon.name)")
                             }
                         }
                     }
@@ -53,6 +54,7 @@ struct SearchPokemonTextField: View {
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .border(Color.gray, width: 1)
             .padding()
+            .accessibilityLabel("Search pokemon")
     }
 }
 

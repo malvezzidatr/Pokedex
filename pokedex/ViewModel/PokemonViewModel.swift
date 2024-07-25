@@ -23,26 +23,31 @@ class PokemonViewModel: ObservableObject {
     }
     
     func getPokemonData() {
+        let dispatchGroup = DispatchGroup()
+        var pokemonDataDict = [Int: PokemonData]()
+        
         for index in 1...150 {
+            dispatchGroup.enter()
             pokemonService.fetchPokemon(id: index) { [weak self] result in
-                guard let self = self else { return }
+                defer { dispatchGroup.leave() }
                 
                 switch result {
                 case .success(let pokemonData):
-                    DispatchQueue.main.async {
-                        self.pokemonsDatas.append(pokemonData)
-                        self.filteredPokemons = self.pokemonsDatas
-                        self.isLoading = false
-                    }
+                    pokemonDataDict[index] = pokemonData
+                    
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        self.errorMessage = error.localizedDescription
-                        self.isLoading = false
+                        self?.errorMessage = error.localizedDescription
+                        self?.isLoading = false
                     }
                 }
             }
         }
-        
+        dispatchGroup.notify(queue: .main) {
+            self.pokemonsDatas = (1...150).compactMap { pokemonDataDict[$0] }
+            self.filteredPokemons = self.pokemonsDatas
+            self.isLoading = false
+        }
     }
     
     func handleTextChanged(_ pokemonSearched: String) {

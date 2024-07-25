@@ -8,6 +8,13 @@
 import XCTest
 
 final class pokedexUITests: XCTestCase {
+    
+    enum SwipeDirection {
+        case right
+        case left
+    }
+    
+    let app = XCUIApplication()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,8 +29,7 @@ final class pokedexUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testIfPokemonCardIsCorrectly() throws {
-        let app = XCUIApplication()
+    func testIfPokemonCardIsCorrectlyAndReturnToHome() throws {
         app.launch()
         
         let pokemonName = app.staticTexts["Bulbasaur"]
@@ -36,7 +42,44 @@ final class pokedexUITests: XCTestCase {
         let pokemonTypePoison = app.staticTexts["Poison"]
         XCTAssertTrue(pokemonTypeGrass.exists, "O texto 'grass' não está presente na tela.")
         XCTAssertTrue(pokemonTypePoison.exists, "O texto 'posion' não está presente na tela.")
+        XCTAssertTrue(pokemonName.exists, "O texto não está presente na tela.")
         
+        returnToPreviousScreen()
+    }
+    
+    func testIfScrollIsWorking() throws {
+        app.launch()
+        
+        let scrollView = app.scrollViews.element(boundBy: 0)
+        XCTAssertTrue(scrollView.exists, "O scroll view não está presente na tela.")
+        
+        swipeHowManyTimes(direction: .left, times: 3)
+        
+        let pokemon = app.staticTexts["Squirtle"]
+        XCTAssertTrue(pokemon.exists, "O pokemon não foi encontrado.")
+    }
+    
+    func testPokemonSearchInput() throws {
+        app.launch()
+        
+        let textInputField = app.textFields["Search pokemon"]
+        XCTAssertTrue(textInputField.exists, "O text input não foi encontrado.")
+        
+        textInputField.tap()
+        textInputField.typeText("Zapdos")
+        XCTAssertEqual(textInputField.value as? String, "Zapdos")
+        
+        let pokemon = app.staticTexts["Zapdos"]
+        XCTAssertTrue(pokemon.exists, "Pokemon não encontrado.")
+        
+        pokemon.tap()
+        
+        let pokemonType1 = app.staticTexts["Electric"]
+        let pokemonType2 = app.staticTexts["Flying"]
+        XCTAssertTrue(pokemonType1.exists, "Tipo do pokemon não encontrado.")
+        XCTAssertTrue(pokemonType2.exists, "Tipo do pokemon não encontrado.")
+        
+        returnToPreviousScreen()
     }
 
     func testLaunchPerformance() throws {
@@ -46,5 +89,27 @@ final class pokedexUITests: XCTestCase {
                 XCUIApplication().launch()
             }
         }
+    }
+    
+    func returnToPreviousScreen() {
+        let backButton = app.navigationBars.buttons["Back"]
+        if backButton.exists {
+            backButton.tap()
+        } else {
+            XCTFail("O botão 'Voltar' não foi encontrado.")
+        }
+    }
+    
+    func swipeHowManyTimes(direction: SwipeDirection, times: Int) {
+        switch direction {
+            case .right:
+                for _ in 0..<times {
+                    app.swipeRight()
+                }
+            case .left:
+                for _ in 0..<times {
+                    app.swipeLeft()
+                }
+            }
     }
 }
