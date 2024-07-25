@@ -22,12 +22,21 @@ final class pokedexUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testIfPokemonCardIsCorrectly() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let pokemonName = app.staticTexts["Bulbasaur"]
+        let pokemonImage = app.images["PokemonImage"]
+        XCTAssertTrue(pokemonName.exists, "O texto não está presente na tela.")
+        XCTAssertTrue(pokemonImage.exists, "A imagem não está presente na tela.")
+        pokemonName.tap()
+        
+        let pokemonTypeGrass = app.staticTexts["Grass"]
+        let pokemonTypePoison = app.staticTexts["Poison"]
+        XCTAssertTrue(pokemonTypeGrass.exists, "O texto 'grass' não está presente na tela.")
+        XCTAssertTrue(pokemonTypePoison.exists, "O texto 'posion' não está presente na tela.")
+        
     }
 
     func testLaunchPerformance() throws {

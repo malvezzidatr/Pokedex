@@ -74,10 +74,13 @@ struct PokemonCard: View {
                         }
                     }
                     .frame(width: 280, height: 300)
+                    .accessibilityIdentifier("PokemonImage")
                     
                     Text(pokemon.name.capitalized)
                         .font(.system(size: 32))
                         .foregroundColor(Color.black)
+                        .accessibilityIdentifier("Pokemon name")
+                        
                 }
                 .padding()
                 .background(Color.gray)
